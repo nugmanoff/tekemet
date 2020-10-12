@@ -1,0 +1,18 @@
+html,
+body,
+body > div:first-child,
+div#__next,
+div#__next > div,
+div#__next > div > div {
+  height: 100%;
+}
+html,
+body {
+  font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
+    'Arial', sans-serif;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-size: 18px;
+}
