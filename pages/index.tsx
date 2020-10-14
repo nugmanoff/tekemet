@@ -3,8 +3,13 @@ import { Howl } from 'howler';
 
 import { BsPlayFill, BsPauseFill } from 'react-icons/bs';
 
+type State = {
+  isPlaying: boolean;
+};
+
 class Home extends Component {
   private sound;
+  state: State;
 
   constructor(props) {
     super(props);
