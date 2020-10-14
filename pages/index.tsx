@@ -23,8 +23,6 @@ class Home extends Component {
     });
   }
 
-  componentDidMount() {}
-
   handleClick() {
     if (this.state.isPlaying) {
       this.sound.unload();
