@@ -14,6 +14,7 @@
     "@dropb/ffprobe": "^1.5.0",
     "@hapi/hapi": "^20.0.1",
     "@types/node": "^14.11.8",
+    "music-metadata": "^7.4.1",
     "nodemon": "^2.0.5",
     "throttle": "^1.0.3"
   }

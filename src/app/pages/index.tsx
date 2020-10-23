@@ -17,7 +17,7 @@ class Home extends Component {
       isPlaying: false,
     };
     this.sound = new Howl({
-      src: 'https://tekemet.herokuapp.com/stream',
+      src: 'http://localhost:7000/stream',
       html5: true, // A live stream can only be played through HTML5 Audio.
       format: ['mp3', 'aac'],
     });

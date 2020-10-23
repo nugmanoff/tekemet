@@ -1,12 +1,13 @@
-const Fs = require("fs");
-const Path = require("path");
-const { PassThrough } = require("stream");
-const Throttle = require("throttle");
+const Fs = require('fs');
+const Path = require('path');
+const { PassThrough } = require('stream');
+const Throttle = require('throttle');
+const mm = require('music-metadata');
 
-const { extname } = require("path");
+const { extname } = require('path');
 
 const readDir = () => Fs.readdirSync(process.cwd(), { withFileTypes: true });
-const isMp3 = (item) => item.isFile && extname(item.name) === ".mp3";
+const isMp3 = (item) => item.isFile && extname(item.name) === '.mp3';
 const readSongs = () =>
   readDir()
     .filter(isMp3)
@@ -34,29 +35,30 @@ const broadcastToEverySink = (chunk) => {
   }
 };
 
-const getBitRate = (song) => {
-  // try {
-  //     const bitRate = ffprobeSync(Path.join(process.cwd(), song)).format.bitrate;
-  //     return parseInt(bitRate);
-  // }
-  // catch (err) {
-  return 128000; // reasonable default, 128kbp
-  // }
+const getBitRate = async (song) => {
+  try {
+    const metadata = await mm.parseFile(Path.join(process.cwd(), song));
+    return parseInt(metadata.format.bitrate);
+  } catch (err) {
+    return 128000; // reasonable default, 128kbp
+  }
 };
 
-const playLoop = (index) => {
+const playLoop = async (index) => {
   if (index >= songs.length) {
     index = 0;
   }
   currentSong = songs[index];
 
   if (currentSong) {
-    const bitRate = getBitRate(currentSong);
+    const bitRate = await getBitRate(currentSong);
     const songReadable = Fs.createReadStream(currentSong);
 
     const throttleTransformable = new Throttle(bitRate);
-    throttleTransformable.on("data", (chunk) => broadcastToEverySink(chunk));
-    throttleTransformable.on("end", () => playLoop(index + 1));
+    throttleTransformable.on('data', (chunk) => broadcastToEverySink(chunk));
+    throttleTransformable.on('end', async () => {
+      await playLoop(index + 1);
+    });
 
     songReadable.pipe(throttleTransformable);
   }
