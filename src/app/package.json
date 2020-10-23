@@ -5,7 +5,7 @@
   "scripts": {
     "start:dev": "next dev -p 3111",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "lint": "eslint --ext .ts,.tsx"
   },
   "dependencies": {
